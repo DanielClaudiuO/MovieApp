@@ -7,7 +7,7 @@
 -->
 <full-backup-content>
     <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
+   <include dan.app.movieapp.domain="sharedpref" path="."/>
+   <exclude dan.app.movieapp.domain="sharedpref" path="device.xml"/>
 -->
 </full-backup-content>
