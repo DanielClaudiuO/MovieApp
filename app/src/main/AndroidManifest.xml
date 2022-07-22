@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dan.app.movieapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,11 +16,14 @@
         android:theme="@style/Theme.MovieApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.actorsScreen.ActorsScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.genresScreen.GenresScreenActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".ui.splashScreen.SplashScreenActivity"
             android:exported="true">
@@ -30,7 +35,7 @@
         </activity>
         <activity
             android:name=".ui.onboardScreen.OnboardScreenActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>
