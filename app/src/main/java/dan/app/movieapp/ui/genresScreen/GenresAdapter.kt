@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dan.app.movieapp.R
 
@@ -12,8 +13,8 @@ class GenresAdapter(private val genresList: List<Genre>) :
     RecyclerView.Adapter<GenresAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val genreName: TextView = view.findViewById(R.id.tvName)
-        val genreItem: ConstraintLayout = view.findViewById(R.id.item)
+        val genreName: TextView = view.findViewById(R.id.tvGenreName)
+        val genreItem: ConstraintLayout = view.findViewById(R.id.itemGenre)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,9 +27,13 @@ class GenresAdapter(private val genresList: List<Genre>) :
         holder.genreName.text = genre.name
         holder.genreItem.setOnClickListener {
             genre.isSelected = !genre.isSelected
-            holder.genreName.text = when (genre.isSelected) {
-                true -> genre.name + " x"
-                else -> genre.name
+            holder.genreItem.background = when (genre.isSelected) {
+                true -> ContextCompat.getDrawable(
+                    holder.genreItem.context, R.drawable.selected_genre_bg
+                )
+                else -> ContextCompat.getDrawable(
+                    holder.genreItem.context, R.drawable.genre_bg
+                )
             }
         }
     }

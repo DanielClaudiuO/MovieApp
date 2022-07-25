@@ -2,10 +2,11 @@ package dan.app.movieapp.ui.onboardScreen
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import dan.app.movieapp.R
+import dan.app.movieapp.ui.actorsScreen.ActorsScreenActivity
 import dan.app.movieapp.ui.genresScreen.GenresScreenActivity
 
 class OnboardScreenActivity : AppCompatActivity() {
@@ -24,12 +25,17 @@ class OnboardScreenActivity : AppCompatActivity() {
 
     }
 
-    private fun setClickListeners(){
+    private fun setClickListeners() {
 
-        val btnGeneres: Button=findViewById(R.id.btnGeneres)
-        btnGeneres.setOnClickListener{
-            startActivity(Intent(this, GenresScreenActivity:: class.java))
+        val btnGeneres: Button = findViewById(R.id.btnGeneres)
+        val btnActors: Button = findViewById(R.id.btnActors)
+        btnGeneres.setOnClickListener {
+            startActivity(Intent(this, GenresScreenActivity::class.java))
 
         }
+        btnActors.setOnClickListener {
+            startActivity(Intent(this, ActorsScreenActivity::class.java))
+        }
+
     }
 }
