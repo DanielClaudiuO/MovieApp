@@ -1,10 +1,14 @@
 package dan.app.movieapp.ui.genresScreen
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dan.app.movieapp.R
+import dan.app.movieapp.ui.onboardScreen.OnboardScreenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,7 +23,7 @@ class GenresScreenActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO){
             genres=genreRepository.getAllRemoteGenres()
             withContext(Dispatchers.Main){
-                setupRecyclerView()
+                preselectSavedGenres()
 
             }
         }
@@ -29,11 +33,43 @@ class GenresScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_genres_screen)
         getGenres()
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners(){
+        val btnGenreSave: FloatingActionButton = findViewById(R.id.btnGenreSave)
+        btnGenreSave.setOnClickListener{
+            saveGenres()
+        }
+    }
+
+    private fun getSelectedGenres(): List<Genre>{
+        return genres.filter { genre->genre.isSelected }
     }
 
     private fun setupRecyclerView() {
         val rvGenres = findViewById<RecyclerView>(R.id.rvGenres)
         rvGenres.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvGenres.adapter = GenresAdapter(genres)
+    }
+
+    private fun saveGenres(){
+        GlobalScope.launch(Dispatchers.IO){
+            genreRepository.deleteAllLocal()
+            genreRepository.saveAllLocal(getSelectedGenres())
+
+        }
+        OnboardScreenActivity.open(this)
+    }
+
+    private fun preselectSavedGenres(){
+        GlobalScope.launch (Dispatchers.IO){
+            val savedGenre: List<Genre> = genreRepository.getAllLocalGenres()
+            withContext(Dispatchers.Main) {
+                genres.forEach { genre -> genre.isSelected = savedGenre.contains(genre) }
+                setupRecyclerView()
+            }
+        }
+
     }
 }

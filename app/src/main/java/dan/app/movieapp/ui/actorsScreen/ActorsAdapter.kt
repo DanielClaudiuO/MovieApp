@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dan.app.movieapp.R
+import dan.app.movieapp.ui.genresScreen.Genre
 
 class ActorsAdapter(private val actorsList: List<Actor>) :
     RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
@@ -24,20 +26,29 @@ class ActorsAdapter(private val actorsList: List<Actor>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val actor = actorsList[position]
         holder.actorName.text = actor.name
+        selectActor(holder, actor)
+
         holder.actorItem.setOnClickListener {
             actor.isSelected = !actor.isSelected
-            holder.actorName.text = when (actor.isSelected) {
-                true -> actor.name + " + "
-                else -> actor.name
-            }
-            holder.actorName
+            selectActor(holder, actor)
         }
 
     }
 
-    
+    private fun selectActor(holder: ViewHolder, actor: Actor) {
 
-    override fun getItemCount()= actorsList.size
+        holder.actorItem.background = when (actor.isSelected) {
+            true -> ContextCompat.getDrawable(
+                holder.actorItem.context, R.drawable.selected_genre_bg
+            )
+            else -> ContextCompat.getDrawable(
+                holder.actorItem.context, R.drawable.genre_bg
+            )
+        }
+
+    }
+
+    override fun getItemCount() = actorsList.size
 
 
 

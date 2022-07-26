@@ -4,4 +4,4 @@ import com.google.gson.annotations.SerializedName
 
 class GenresListResponse(
     @SerializedName("genres")
-    var genres: List<GenreResponse>){}
+    var genres: List<GenreResponse>)

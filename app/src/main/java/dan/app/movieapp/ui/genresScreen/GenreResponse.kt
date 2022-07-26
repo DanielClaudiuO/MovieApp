@@ -7,6 +7,4 @@ class GenreResponse(
     var id: Int,
     @SerializedName("name")
     var name: String
-    ) {
-
-}
+    )

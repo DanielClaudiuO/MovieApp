@@ -199,7 +199,7 @@ class LoggingInterceptor(private val logger: Logger = Logger.DEFAULT) : Intercep
                 if (buffer != null) {
                     if (!isPlaintext(buffer)) {
                         logger.log("")
-                        logger.log("<-- END HTTP (binary " + (buffer.size() ?: "") + "-byte body omitted)")
+                        logger.log("<-- END HTTP (binary " + buffer.size() + "-byte body omitted)")
                         return response
                     }
                     if (contentLength != 0L) {

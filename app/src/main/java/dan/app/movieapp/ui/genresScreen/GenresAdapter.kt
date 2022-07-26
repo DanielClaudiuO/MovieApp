@@ -25,8 +25,17 @@ class GenresAdapter(private val genresList: List<Genre>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val genre = genresList[position]
         holder.genreName.text = genre.name
+        selectGenre(holder, genre)
+
         holder.genreItem.setOnClickListener {
             genre.isSelected = !genre.isSelected
+            selectGenre(holder, genre)
+        }
+
+    }
+
+    private fun selectGenre(holder: ViewHolder, genre: Genre) {
+
             holder.genreItem.background = when (genre.isSelected) {
                 true -> ContextCompat.getDrawable(
                     holder.genreItem.context, R.drawable.selected_genre_bg
@@ -35,7 +44,7 @@ class GenresAdapter(private val genresList: List<Genre>) :
                     holder.genreItem.context, R.drawable.genre_bg
                 )
             }
-        }
+
     }
 
     override fun getItemCount() = genresList.size
