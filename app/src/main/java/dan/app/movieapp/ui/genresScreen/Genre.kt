@@ -13,14 +13,14 @@ data class Genre(
     @NonNull
     var id: Int,
 
-    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "title") var name: String,
 
-    @ColumnInfo(name = "isSelected") var isSelected: Boolean
+    @ColumnInfo(name = "vote_average") var isSelected: Boolean
 
 ) {
     override fun equals(other: Any?) = (other is Genre) && id == other.id
 
     override fun toString(): String {
-        return "Genre(id=$id, name='$name', isSelected=$isSelected)"
+        return "Genre(id=$id, title='$name', vote_average=$isSelected)"
     }
 }

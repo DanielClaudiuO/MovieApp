@@ -13,6 +13,7 @@ class ActorsLocalDataSource(database: Database) {
     fun deleteAll() = actorDAO.deleteAll()
     fun deleteAll(actors: List<Actor>) = actorDAO.deleteAll(actors)
     fun replaceAll(actors: List<Actor>) = actorDAO.replaceAll(actors)
+    fun getCount()= actorDAO.getCount()
 
 
 }
