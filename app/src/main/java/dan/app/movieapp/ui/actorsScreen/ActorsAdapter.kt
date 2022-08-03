@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dan.app.movieapp.R
-import dan.app.movieapp.ui.genresScreen.Genre
 import dan.app.movieapp.utils.Constants.IMAGE_URL
 
 class ActorsAdapter(private val actorsList: List<Actor>) :
@@ -44,10 +43,10 @@ class ActorsAdapter(private val actorsList: List<Actor>) :
 
         holder.actorItem.background = when (actor.isSelected) {
             true -> ContextCompat.getDrawable(
-                holder.actorItem.context, R.drawable.selected_genre_bg
+                holder.actorItem.context, R.drawable.actor_selected_bg
             )
             else -> ContextCompat.getDrawable(
-                holder.actorItem.context, R.drawable.genre_bg
+                holder.actorItem.context, R.drawable.actor_bg
             )
         }
 

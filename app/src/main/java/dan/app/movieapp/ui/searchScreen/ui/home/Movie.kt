@@ -18,7 +18,7 @@ data class Movie(
         @ColumnInfo(name = "vote_average")
         var vote_average: Double,
         @ColumnInfo(name = "backdrop_path")
-        var backdrop_image: String,
+        var backdrop_image: String?,
         @ColumnInfo(name = "overview")
         var overview: String,
         @ColumnInfo(name = "poster_path")
@@ -27,11 +27,15 @@ data class Movie(
         var popularity: Double,
         @ColumnInfo(name = "vote_count")
         var vote_count: Int,
-        @ColumnInfo(name = "isSelected")
-        var isSelected: Boolean
+        @ColumnInfo(name = "isWatched")
+        var isWatched: Boolean,
+        @ColumnInfo(name = "isFavourite")
+        var isFavourite: Boolean
 
 
-) {
+
+
+        ) {
     override fun equals(other: Any?) = (other is Movie) && id == other.id
 
     override fun toString(): String {

@@ -13,8 +13,6 @@ class MovieRepository private constructor() {
     private val movieRemoteDataSource= MovieRemoteDataSource(APIClient.instance.retrofit)
     private val movieLocalDataSource= MoviesLocalDataSource(Database.instance)
 
-    fun getAllRemoteMovies()= movieRemoteDataSource.getMovies()
-
     fun getAllLocalMovies() = movieLocalDataSource.getAll()
     fun saveLocal(movie: Movie) = movieLocalDataSource.save(movie)
     fun saveAllLocal(movies: List<Movie>) = movieLocalDataSource.saveAll(movies)
@@ -24,4 +22,10 @@ class MovieRepository private constructor() {
     fun replaceAllLocal(movies: List<Movie>) = movieLocalDataSource.replaceAll(movies)
     fun getCount()= movieLocalDataSource.getCount()
 
+    fun getAllRemoteMovies(withCast: String, withGenres: String): List<Movie> {
+        return movieRemoteDataSource.getMovies(withCast, withGenres)
+    }
+    fun getAllSearchedMovies(query: String): List<Movie> {
+        return movieRemoteDataSource.getSearchedMovie(query)
+    }
 }

@@ -38,7 +38,7 @@ class GenresAdapter(private val genresList: List<Genre>) :
 
             holder.genreItem.background = when (genre.isSelected) {
                 true -> ContextCompat.getDrawable(
-                    holder.genreItem.context, R.drawable.selected_genre_bg
+                    holder.genreItem.context, R.drawable.genre_selected_bg
                 )
                 else -> ContextCompat.getDrawable(
                     holder.genreItem.context, R.drawable.genre_bg

@@ -1,4 +1,4 @@
-package dan.app.movieapp.ui.searchScreen.ui.favourites
+package dan.app.movieapp.ui.searchScreen.ui.savedMovies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

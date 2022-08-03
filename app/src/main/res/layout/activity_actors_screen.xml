@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.actorsScreen.ActorsScreenActivity">
+    tools:context=".ui.actorsScreen.ActorsScreenActivity"
+    android:background="@drawable/cinema_hall"
+    android:backgroundTint="#9F133220"
+    android:backgroundTintMode="src_over">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActors"

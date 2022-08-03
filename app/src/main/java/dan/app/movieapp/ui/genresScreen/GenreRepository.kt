@@ -22,5 +22,6 @@ class GenreRepository private constructor() {
     fun deleteAllLocal(genres: List<Genre>) = genreLocalDataSource.deleteAll(genres)
     fun replaceAllLocal(genres: List<Genre>) = genreLocalDataSource.replaceAll(genres)
     fun getCount()=genreLocalDataSource.getCount()
+    fun getAllGenresIds()= genreLocalDataSource.getAllGenresIds()
 
 }

@@ -1,4 +1,4 @@
-package dan.app.movieapp.ui.searchScreen.ui.favourites
+package dan.app.movieapp.ui.searchScreen.ui.savedMovies
 
 import android.os.Bundle
 import android.view.LayoutInflater

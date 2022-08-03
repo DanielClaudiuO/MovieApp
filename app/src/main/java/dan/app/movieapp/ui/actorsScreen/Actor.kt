@@ -12,17 +12,17 @@ data class Actor(
     @PrimaryKey
     @NonNull
     var id:Int,
-    @ColumnInfo(name = "title")
+    @ColumnInfo(name = "name")
     var name: String,
-    @ColumnInfo(name = "release_date")
+    @ColumnInfo(name = "photo")
     var photo: String,
-    @ColumnInfo(name = "vote_average")
+    @ColumnInfo(name = "isSelected")
     var isSelected: Boolean
 ) {
     override fun equals(other: Any?) = (other is Actor) && id == other.id
 
     override fun toString(): String {
-        return "Actor(id=$id, title='$name', release_date='$photo', vote_average=$isSelected)"
+        return "Actor(id=$id, name='$name', photo='$photo', isSelected=$isSelected)"
     }
 }
 

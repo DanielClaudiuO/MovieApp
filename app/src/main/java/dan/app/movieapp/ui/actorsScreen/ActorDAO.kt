@@ -6,7 +6,7 @@ import androidx.room.*
 interface ActorDAO {
 
 
-    @Query("SELECT *  FROM movies")
+    @Query("SELECT *  FROM actors")
     fun getAll(): List<Actor>
 
     @Insert
@@ -21,7 +21,7 @@ interface ActorDAO {
     @Delete
     fun deleteAll(actors: List<Actor>)
 
-    @Query("DELETE FROM movies")
+    @Query("DELETE FROM actors")
     fun deleteAll()
 
     @Transaction
@@ -30,6 +30,9 @@ interface ActorDAO {
         saveAll(actors)
     }
 
-    @Query("SELECT COUNT(id) FROM movies")
+    @Query("SELECT COUNT(id) FROM actors")
     fun getCount(): Int
+
+    @Query("SELECT id FROM actors")
+    fun getAllActorsIds() : List<Int>
 }

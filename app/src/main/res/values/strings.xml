@@ -14,4 +14,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_favourites">Favourites</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="movie_title">The Movie Title</string>
+    <string name="movie_description">this is the movie description, the movie is awesome, it is about a young man in shis yellow submarine, andhe loves to swim</string>
+    <string name="movie_mock_date">20-20-2020</string>
+    <string name="mock_actor_name">John Doe</string>
+    <string name="mock_genre">Action</string>
 </resources>
