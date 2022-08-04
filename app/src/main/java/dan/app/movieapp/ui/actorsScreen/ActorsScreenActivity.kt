@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dan.app.movieapp.R
 import dan.app.movieapp.ui.genresScreen.Genre
+import dan.app.movieapp.ui.genresScreen.GenreRepository
 import dan.app.movieapp.ui.onboardScreen.OnboardScreenActivity
+import dan.app.movieapp.ui.searchScreen.SearchScreenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ class ActorsScreenActivity : AppCompatActivity() {
 
     private var actors: List<Actor> = emptyList()
     private val actorsRepository = ActorRepository.instance
+    private val genreRepository = GenreRepository.instance
 
     private fun getActors() {
         GlobalScope.launch(Dispatchers.IO){
@@ -59,7 +62,24 @@ class ActorsScreenActivity : AppCompatActivity() {
             actorsRepository.saveAllLocal(getSelectedActors())
 
         }
-        OnboardScreenActivity.open(this)
+        isSaved()
+    }
+
+    private fun isSaved() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val genreCount = genreRepository.getCount()
+            val actorCount=genreRepository.getCount()
+            withContext(Dispatchers.Main) {
+                verifyIsSaved(genreCount, actorCount)
+            }
+        }
+
+    }
+
+    private fun verifyIsSaved(genreCount: Int, actorCount: Int) {
+        val isSaved = genreCount > 0 && actorCount > 0
+        if (isSaved) SearchScreenActivity.open(this)
+        else OnboardScreenActivity.open(this)
     }
 
     private fun preselectSavedActors(){

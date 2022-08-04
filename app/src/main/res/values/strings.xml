@@ -19,4 +19,7 @@
     <string name="movie_mock_date">20-20-2020</string>
     <string name="mock_actor_name">John Doe</string>
     <string name="mock_genre">Action</string>
+    <string name="title_activity_tabbed_main">TabbedMainActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

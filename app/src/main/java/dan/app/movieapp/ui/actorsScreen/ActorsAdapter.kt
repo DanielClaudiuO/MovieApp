@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -17,7 +18,7 @@ class ActorsAdapter(private val actorsList: List<Actor>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val actorName: TextView = view.findViewById(R.id.tvActorName)
-        val actorItem: ConstraintLayout = view.findViewById(R.id.itemActor)
+        val actorItem: LinearLayout = view.findViewById(R.id.itemActor)
         val actorImage: ImageView= view.findViewById(R.id.ivActor)
     }
 

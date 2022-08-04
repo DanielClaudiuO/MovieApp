@@ -113,7 +113,12 @@ class HomeFragment : Fragment() {
         val btnFilter = binding.btnSearch
         val svSearch= binding.svSearch
         btnFilter.setOnClickListener {
-            svSearch.visibility=View.VISIBLE
+
+            svSearch.visibility=when(svSearch.visibility){
+                View.VISIBLE->View.INVISIBLE
+                View.INVISIBLE->View.VISIBLE
+                else -> View.INVISIBLE
+            }
         }
 
 

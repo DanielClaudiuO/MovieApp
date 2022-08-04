@@ -25,11 +25,29 @@ interface MovieDAO {
     fun deleteAll()
 
     @Transaction
-    fun replaceAll(movies: List<Movie>){
+    fun replaceAll(movies: List<Movie>) {
         deleteAll()
         saveAll(movies)
     }
 
+    @Transaction
+    fun insertOrUpdateMovie(movie: Movie) {
+        insertChooseCategories(movie)
+        updateChooseCategories(movie)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertChooseCategories(movie: Movie)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateChooseCategories(movie: Movie)
+
     @Query("SELECT COUNT(id) FROM movies")
     fun getCount(): Int
+
+    @Query("SELECT * FROM movies WHERE isFavourite = 1")
+    fun getFavourites(): List<Movie>
+
+    @Query("SELECT * FROM movies WHERE isWatched = 1")
+    fun getWatched(): List<Movie>
 }

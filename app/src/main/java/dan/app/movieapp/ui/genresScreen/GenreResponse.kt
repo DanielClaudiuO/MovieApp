@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 class GenreResponse(
     @SerializedName("id")
     var id: Int,
-    @SerializedName("title")
+    @SerializedName("name")
     var name: String
     )

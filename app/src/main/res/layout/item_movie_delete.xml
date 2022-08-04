@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/itemMovie"
+    android:id="@+id/itemMovieDelete"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -66,22 +66,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="end">
+
 
                     <ImageButton
-                        android:id="@+id/ibFavouriteMovie"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="20dp"
-                        android:backgroundTint="@color/no_color"
-                        android:src="@drawable/ic_favourite_red" />
-
-                    <ImageButton
-                        android:id="@+id/ibWatchedMovie"
+                        android:id="@+id/ibDeleteMovie"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/no_color"
-                        android:src="@drawable/ic_watched_black" />
+                        android:src="@drawable/ic_delete_white" />
 
                 </LinearLayout>
 

@@ -50,7 +50,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun isSaved() {
         GlobalScope.launch(Dispatchers.IO) {
             val genreCount = genreRepository.getCount()
-            val actorCount=genreRepository.getCount()
+            val actorCount=actorsRepository.getCount()
             withContext(Dispatchers.Main) {
                 verifyIsSaved(genreCount, actorCount)
             }

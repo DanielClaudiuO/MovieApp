@@ -2,17 +2,17 @@ package dan.app.movieapp.ui.searchScreen.ui.home
 
 class MovieMapper {
 
-    fun map(actorResponse: MovieResponse): Movie {
+    fun map(movieResponse: MovieResponse): Movie {
         return Movie(
-            id = actorResponse.id,
-            title = actorResponse.title,
-            release_date = actorResponse.release_date,
-            vote_average = actorResponse.vote_average,
-            backdrop_image = actorResponse.backdrop_image,
-            overview = actorResponse.overview,
-            poster_path = actorResponse.poster_path,
-            popularity = actorResponse.popularity,
-            vote_count = actorResponse.vote_count,
+            id = movieResponse.id,
+            title = movieResponse.title,
+            release_date = movieResponse.release_date,
+            vote_average = movieResponse.vote_average,
+            backdrop_image = movieResponse.backdrop_image,
+            overview = movieResponse.overview,
+            poster_path = movieResponse.poster_path,
+            popularity = movieResponse.popularity,
+            vote_count = movieResponse.vote_count,
             isFavourite = false,
             isWatched = false
         )

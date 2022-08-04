@@ -13,9 +13,9 @@ data class Genre(
     @NonNull
     var id: Int,
 
-    @ColumnInfo(name = "title") var name: String,
+    @ColumnInfo(name = "name") var name: String,
 
-    @ColumnInfo(name = "vote_average") var isSelected: Boolean
+    @ColumnInfo(name = "isSelected") var isSelected: Boolean
 
 ) {
     override fun equals(other: Any?) = (other is Genre) && id == other.id

@@ -7,10 +7,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dan.app.movieapp.R
 import dan.app.movieapp.utils.Constants.IMAGE_URL_MOVIE
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MovieAdapter(private val movieList: List<Movie>) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
@@ -24,6 +28,8 @@ class MovieAdapter(private val movieList: List<Movie>) :
         val favouriteMovieIcon: ImageButton = view.findViewById(R.id.ibFavouriteMovie)
         val watchedMovieIcon: ImageButton = view.findViewById(R.id.ibWatchedMovie)
     }
+
+    private var movieRepository = MovieRepository.instance
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
@@ -40,16 +46,22 @@ class MovieAdapter(private val movieList: List<Movie>) :
 
         holder.favouriteMovieIcon.setOnClickListener{
             movie.isFavourite = !movie.isFavourite
-
             selectFavouriteMovie(holder, movie)
-
+            insertOrReplaceMovie(movie)
         }
 
         holder.watchedMovieIcon.setOnClickListener {
             movie.isWatched = !movie.isWatched
             selectWatchedMovie(holder, movie)
+            insertOrReplaceMovie(movie)
         }
 
+    }
+
+    private fun insertOrReplaceMovie(movie: Movie){
+        GlobalScope.launch(Dispatchers.IO) {
+            movieRepository.insertOrReplace(movie)
+        }
     }
 
     private fun selectFavouriteMovie(holder: ViewHolder, movie: Movie){

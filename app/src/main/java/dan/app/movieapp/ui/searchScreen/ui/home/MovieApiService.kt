@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface MovieApiService {
 
-    @GET("/discover/movie")
+    @GET("discover/movie")
     fun getMovies(
         @Query("api_key")
         apiKey: String,
