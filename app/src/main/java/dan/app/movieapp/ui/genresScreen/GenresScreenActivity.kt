@@ -21,7 +21,6 @@ class GenresScreenActivity : AppCompatActivity() {
     private val genreRepository = GenreRepository.instance
     private val actorsRepository = ActorRepository.instance
     private var genres: List<Genre> = emptyList()
-    var hasEnteredGenres = false
 
     private fun getGenres() {
         GlobalScope.launch(Dispatchers.IO) {
@@ -45,7 +44,6 @@ class GenresScreenActivity : AppCompatActivity() {
         val btnGenreSave: FloatingActionButton = findViewById(R.id.btnGenreSave)
         btnGenreSave.setOnClickListener {
             saveGenres()
-            hasEnteredGenres = true
         }
     }
 
@@ -65,25 +63,10 @@ class GenresScreenActivity : AppCompatActivity() {
             genreRepository.saveAllLocal(getSelectedGenres())
 
         }
-        isSaved()
+        OnboardScreenActivity.open(this)
     }
 
-    private fun isSaved() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val genreCount = genreRepository.getCount()
-            val actorCount = actorsRepository.getCount()
-            withContext(Dispatchers.Main) {
-                verifyIsSaved(genreCount, actorCount)
-            }
-        }
 
-    }
-
-    private fun verifyIsSaved(genreCount: Int, actorCount: Int) {
-        val isSaved = genreCount > 0 && actorCount > 0
-        if (isSaved) SearchScreenActivity.open(this)
-        else OnboardScreenActivity.open(this)
-    }
 
     private fun preselectSavedGenres() {
         GlobalScope.launch(Dispatchers.IO) {
@@ -95,4 +78,6 @@ class GenresScreenActivity : AppCompatActivity() {
         }
 
     }
+
+
 }

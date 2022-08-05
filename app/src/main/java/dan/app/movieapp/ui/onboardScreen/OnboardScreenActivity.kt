@@ -6,11 +6,20 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import dan.app.movieapp.R
+import dan.app.movieapp.ui.actorsScreen.ActorRepository
 import dan.app.movieapp.ui.actorsScreen.ActorsScreenActivity
+import dan.app.movieapp.ui.genresScreen.GenreRepository
 import dan.app.movieapp.ui.genresScreen.GenresScreenActivity
 import dan.app.movieapp.ui.searchScreen.SearchScreenActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OnboardScreenActivity : AppCompatActivity() {
+
+    private val genreRepository = GenreRepository.instance
+    private val actorsRepository = ActorRepository.instance
 
     companion object {
         fun open(context: Context) {
@@ -40,12 +49,20 @@ class OnboardScreenActivity : AppCompatActivity() {
 
     }
 
+    private fun verifyIfFilterIsSelected(){
+        GlobalScope.launch ( Dispatchers.IO ){
+            val  genreCount = genreRepository.getCount()
+            val  actorCount = actorsRepository.getCount()
+
+            withContext(Dispatchers.Main){
+                if(genreCount > 0 && actorCount> 0)
+                startActivity(Intent(this@OnboardScreenActivity, SearchScreenActivity::class.java))
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        val actorsScreen: ActorsScreenActivity= ActorsScreenActivity()
-        val genresScreen: GenresScreenActivity= GenresScreenActivity()
-        if (actorsScreen.hasEnteredActors && genresScreen.hasEnteredGenres )
-            startActivity(Intent(this, SearchScreenActivity::class.java))
-
+        verifyIfFilterIsSelected()
     }
 }

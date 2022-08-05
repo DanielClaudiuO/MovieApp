@@ -13,8 +13,11 @@ import dan.app.movieapp.R
 import dan.app.movieapp.ui.searchScreen.ui.home.Movie
 import dan.app.movieapp.ui.searchScreen.ui.home.MovieRepository
 import dan.app.movieapp.utils.Constants
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class WatchedAdapter(private val watchedMoviesList: List<Movie>) :
+class WatchedAdapter(private val watchedMoviesList: MutableList<Movie>) :
     RecyclerView.Adapter<WatchedAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -30,7 +33,7 @@ class WatchedAdapter(private val watchedMoviesList: List<Movie>) :
         val itemBtnDelete: ImageButton = view.findViewById(R.id.ibDeleteMovie)
     }
 
-    private val moviesRep: MovieRepository = MovieRepository.instance
+    private val movieRepository: MovieRepository = MovieRepository.instance
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -54,6 +57,25 @@ class WatchedAdapter(private val watchedMoviesList: List<Movie>) :
 
         holder.itemBtnDelete.setOnClickListener {
             holder.watched=false
+        }
+        holder.itemBtnDelete.setOnClickListener {
+            updateItem(watchedMoviesList[position])
+            watchedMoviesList.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, watchedMoviesList.size)
+        }
+    }
+
+    private fun updateItem(movie: Movie) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val saved = ArrayList(movieRepository.getAllLocalMovies())
+            val idx = saved.indexOf(movie)
+            if (idx != -1) saved[idx].isFavourite = !saved[idx].isFavourite
+            if (!saved[idx].isFavourite && !saved[idx].isWatched) {
+                movieRepository.deleteLocal(saved[idx])
+                saved.removeAt(idx)
+            }
+            movieRepository.replaceAllLocal(saved.toList())
         }
     }
 
