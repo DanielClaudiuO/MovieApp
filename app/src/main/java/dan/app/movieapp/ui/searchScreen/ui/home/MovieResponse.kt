@@ -11,7 +11,7 @@ class MovieResponse(
         var release_date: String,
         @SerializedName("vote_average")
         var vote_average: Double,
-        @SerializedName("backdrop_path")
+        @SerializedName("backdrop_image")
         var backdrop_image: String,
         @SerializedName("overview")
         var overview: String,

@@ -18,14 +18,15 @@ import kotlinx.coroutines.withContext
 
 class GenresScreenActivity : AppCompatActivity() {
 
-    private val genreRepository= GenreRepository.instance
+    private val genreRepository = GenreRepository.instance
     private val actorsRepository = ActorRepository.instance
     private var genres: List<Genre> = emptyList()
+    var hasEnteredGenres = false
 
     private fun getGenres() {
-        GlobalScope.launch(Dispatchers.IO){
-            genres=genreRepository.getAllRemoteGenres()
-            withContext(Dispatchers.Main){
+        GlobalScope.launch(Dispatchers.IO) {
+            genres = genreRepository.getAllRemoteGenres()
+            withContext(Dispatchers.Main) {
                 preselectSavedGenres()
 
             }
@@ -37,17 +38,19 @@ class GenresScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_genres_screen)
         getGenres()
         setOnClickListeners()
+
     }
 
-    private fun setOnClickListeners(){
+    private fun setOnClickListeners() {
         val btnGenreSave: FloatingActionButton = findViewById(R.id.btnGenreSave)
-        btnGenreSave.setOnClickListener{
+        btnGenreSave.setOnClickListener {
             saveGenres()
+            hasEnteredGenres = true
         }
     }
 
-    private fun getSelectedGenres(): List<Genre>{
-        return genres.filter { genre->genre.isSelected }
+    private fun getSelectedGenres(): List<Genre> {
+        return genres.filter { genre -> genre.isSelected }
     }
 
     private fun setupRecyclerView() {
@@ -56,8 +59,8 @@ class GenresScreenActivity : AppCompatActivity() {
         rvGenres.adapter = GenresAdapter(genres)
     }
 
-    private fun saveGenres(){
-        GlobalScope.launch(Dispatchers.IO){
+    private fun saveGenres() {
+        GlobalScope.launch(Dispatchers.IO) {
             genreRepository.deleteAllLocal()
             genreRepository.saveAllLocal(getSelectedGenres())
 
@@ -68,7 +71,7 @@ class GenresScreenActivity : AppCompatActivity() {
     private fun isSaved() {
         GlobalScope.launch(Dispatchers.IO) {
             val genreCount = genreRepository.getCount()
-            val actorCount=actorsRepository.getCount()
+            val actorCount = actorsRepository.getCount()
             withContext(Dispatchers.Main) {
                 verifyIsSaved(genreCount, actorCount)
             }
@@ -82,8 +85,8 @@ class GenresScreenActivity : AppCompatActivity() {
         else OnboardScreenActivity.open(this)
     }
 
-    private fun preselectSavedGenres(){
-        GlobalScope.launch (Dispatchers.IO){
+    private fun preselectSavedGenres() {
+        GlobalScope.launch(Dispatchers.IO) {
             val savedGenre: List<Genre> = genreRepository.getAllLocalGenres()
             withContext(Dispatchers.Main) {
                 genres.forEach { genre -> genre.isSelected = savedGenre.contains(genre) }

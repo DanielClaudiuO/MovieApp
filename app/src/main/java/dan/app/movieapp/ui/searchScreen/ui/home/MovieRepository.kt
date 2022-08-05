@@ -31,4 +31,6 @@ class MovieRepository private constructor() {
     fun getAllSearchedMovies(query: String): List<Movie> {
         return movieRemoteDataSource.getSearchedMovie(query)
     }
+
+    fun getMovieDetails(movieId: Int) = movieRemoteDataSource.getMovieDetails(movieId)
 }

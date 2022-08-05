@@ -16,8 +16,12 @@
         android:name="dan.app.movieapp.ui.searchScreen.ui.savedMovies.SavedFragment"
         android:label="@string/menu_favourites"
         tools:layout="@layout/fragment_favourites" />
+    <fragment
+        android:id="@+id/fragmentMovieDetails"
+        android:name="dan.app.movieapp.ui.movieDetailsScreen.FragmentMovieDetails"
+        android:label="FragmentMovieDetails" />
 
-<!--    <fragment-->
+    <!--    <fragment-->
 <!--        android:id="@+id/nav_slideshow"-->
 <!--        android:title="dan.app.movieapp.ui.searchScreen.ui.slideshow.SlideshowFragment"-->
 <!--        android:label="@string/menu_slideshow"-->

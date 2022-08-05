@@ -8,15 +8,21 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dan.app.movieapp.R
+import dan.app.movieapp.ui.movieDetailsScreen.MovieDetailsViewModel
 import dan.app.movieapp.utils.Constants.IMAGE_URL_MOVIE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MovieAdapter(private val movieList: List<Movie>) :
+class MovieAdapter(
+    private val movieList: List<Movie>,
+    private val detailsCallback: (() -> Unit)?,
+    private val viewModel: MovieDetailsViewModel
+) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,12 +45,13 @@ class MovieAdapter(private val movieList: List<Movie>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = movieList[position]
         holder.movieTitle.text = movie.title
-        holder.movieDate.text=movie.release_date
+        holder.movieDate.text = movie.release_date
         holder.movieDescription.text = movie.overview
-        if(movie.backdrop_image!=null)
-            Glide.with(holder.moviePhoto.context).load(IMAGE_URL_MOVIE + movie.poster_path).into(holder.moviePhoto)
+        if (movie.poster_path != null)
+            Glide.with(holder.moviePhoto.context).load(IMAGE_URL_MOVIE + movie.poster_path)
+                .into(holder.moviePhoto)
 
-        holder.favouriteMovieIcon.setOnClickListener{
+        holder.favouriteMovieIcon.setOnClickListener {
             movie.isFavourite = !movie.isFavourite
             selectFavouriteMovie(holder, movie)
             insertOrReplaceMovie(movie)
@@ -56,26 +63,31 @@ class MovieAdapter(private val movieList: List<Movie>) :
             insertOrReplaceMovie(movie)
         }
 
+        holder.movieItem.setOnClickListener {
+            viewModel.currentMovieId.postValue(movie.id)
+            detailsCallback?.invoke()
+        }
+
     }
 
-    private fun insertOrReplaceMovie(movie: Movie){
+    private fun insertOrReplaceMovie(movie: Movie) {
         GlobalScope.launch(Dispatchers.IO) {
             movieRepository.insertOrReplace(movie)
         }
     }
 
-    private fun selectFavouriteMovie(holder: ViewHolder, movie: Movie){
+    private fun selectFavouriteMovie(holder: ViewHolder, movie: Movie) {
         holder.favouriteMovieIcon.setImageResource(
-            when(movie.isFavourite){
+            when (movie.isFavourite) {
                 true -> R.drawable.ic_favourite_fill_red
                 else -> R.drawable.ic_favourite_red
             }
         )
     }
 
-    private fun selectWatchedMovie(holder: ViewHolder, movie: Movie){
+    private fun selectWatchedMovie(holder: ViewHolder, movie: Movie) {
         holder.watchedMovieIcon.setImageResource(
-            when(movie.isWatched){
+            when (movie.isWatched) {
                 true -> R.drawable.ic_watched_red
                 else -> R.drawable.ic_watched_black
             }

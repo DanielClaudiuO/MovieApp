@@ -27,15 +27,29 @@ class WatchedFragment: Fragment(R.layout.fragment_watched) {
         GlobalScope.launch (Dispatchers.IO) {
             movies = movieRepository.getWatched().toMutableList()
             withContext(Dispatchers.Main){
-                setupRecyclerView(view)
+                preselectMovies(view)
             }
         }
     }
 
     private fun setupRecyclerView(view: View){
-        val rvFavoriteMovies = view?.findViewById<RecyclerView>(R.id.rvWatchedMovies)
-        rvFavoriteMovies?.layoutManager=
+        val rvWatchedMovies = view?.findViewById<RecyclerView>(R.id.rvWatchedMovies)
+        rvWatchedMovies?.layoutManager=
             LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
-        rvFavoriteMovies?.adapter = WatchedAdapter(movies)
+        rvWatchedMovies?.adapter = WatchedAdapter(movies)
+    }
+
+    private fun preselectMovies(view: View) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val saved: List<Movie> = movieRepository.getAllLocalMovies()
+            withContext(Dispatchers.Main) {
+                movies.forEach {
+                    val idx = saved.indexOf(it)
+                    it.isFavourite = (idx != -1) && saved[idx].isFavourite
+                    it.isWatched = (idx != -1) && saved[idx].isWatched
+                }
+                setupRecyclerView(view)
+            }
+        }
     }
 }

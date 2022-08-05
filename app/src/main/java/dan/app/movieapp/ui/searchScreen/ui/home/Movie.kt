@@ -17,7 +17,7 @@ data class Movie(
         var release_date: String,
         @ColumnInfo(name = "vote_average")
         var vote_average: Double,
-        @ColumnInfo(name = "backdrop_path")
+        @ColumnInfo(name = "backdrop_image")
         var backdrop_image: String?,
         @ColumnInfo(name = "overview")
         var overview: String,

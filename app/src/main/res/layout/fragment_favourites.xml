@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tabActivity.TabbedMainActivity"
-    android:orientation="vertical">
+    android:background="@drawable/cinema_hall"
+    android:backgroundTint="#9F133220"
+    android:backgroundTintMode="src_over"
+    android:orientation="vertical"
+    tools:context=".ui.tabActivity.TabbedMainActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView

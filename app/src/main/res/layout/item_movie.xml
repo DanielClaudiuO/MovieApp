@@ -74,14 +74,16 @@
                         android:layout_height="match_parent"
                         android:layout_marginEnd="20dp"
                         android:backgroundTint="@color/no_color"
-                        android:src="@drawable/ic_favourite_red" />
+                        android:src="@drawable/ic_favourite_red"
+                        app:tint="@color/yellow_green" />
 
                     <ImageButton
                         android:id="@+id/ibWatchedMovie"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:backgroundTint="@color/no_color"
-                        android:src="@drawable/ic_watched_black" />
+                        android:src="@drawable/ic_watched_black"
+                        />
 
                 </LinearLayout>
 

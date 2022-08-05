@@ -16,10 +16,9 @@ import dan.app.movieapp.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
-class FavoriteAdapter(private val favouritemoviesList: MutableList<Movie>) :
+class FavoriteAdapter(private val favouriteMoviesList: MutableList<Movie>) :
 
     RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
@@ -48,32 +47,44 @@ class FavoriteAdapter(private val favouritemoviesList: MutableList<Movie>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = favouritemoviesList[position]
+        val movie = favouriteMoviesList[position]
         holder.movieTitle.text = movie.title
         holder.movieDate.text = movie.release_date
         holder.movieDescription.text = movie.overview
-        if (movie.backdrop_image != null)
+        if (movie.poster_path != null)
             Glide.with(holder.moviePhoto.context)
                 .load(Constants.IMAGE_URL_MOVIE + movie.poster_path).into(holder.moviePhoto)
 
 
-        holder.favorite = favouritemoviesList[position].isFavourite
-        holder.watched = favouritemoviesList[position].isWatched
+        holder.favorite = favouriteMoviesList[position].isFavourite
+        holder.watched = favouriteMoviesList[position].isWatched
 
         holder.itemBtnDelete.setOnClickListener {
-            GlobalScope.launch (Dispatchers.IO) {
-                withContext(Dispatchers.Main) {
-                    deleteMovie(movie)
-                }
-            }
+            holder.favorite=false
         }
+
+
+    holder.itemBtnDelete.setOnClickListener {
+        updateItem(favouriteMoviesList[position])
+        favouriteMoviesList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, favouriteMoviesList.size)
     }
+}
 
-    private fun deleteMovie(movie: Movie) {
-        GlobalScope.launch (Dispatchers.IO) {
-             movieRepository.deleteLocal(movie)
-        }    }
+private fun updateItem(movie: Movie) {
+    GlobalScope.launch(Dispatchers.IO) {
+        val saved = ArrayList(movieRepository.getAllLocalMovies())
+        val idx = saved.indexOf(movie)
+        if (idx != -1) saved[idx].isFavourite = !saved[idx].isFavourite
+        if (!saved[idx].isFavourite && !saved[idx].isWatched) {
+            movieRepository.deleteLocal(saved[idx])
+            saved.removeAt(idx)
+        }
+        movieRepository.replaceAllLocal(saved.toList())
+    }
+}
 
-    override fun getItemCount()= favouritemoviesList.size
+    override fun getItemCount()= favouriteMoviesList.size
 
 }

@@ -27,7 +27,7 @@ class FavoriteFragment: Fragment(R.layout.fragment_favourites) {
         GlobalScope.launch (Dispatchers.IO) {
             movies = movieRepository.getFavourite().toMutableList()
             withContext(Dispatchers.Main){
-                setupRecyclerView(view)
+                preselectMovies(view)
             }
         }
     }
@@ -37,5 +37,19 @@ class FavoriteFragment: Fragment(R.layout.fragment_favourites) {
         rvFavoriteMovies?.layoutManager=
             LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         rvFavoriteMovies?.adapter = FavoriteAdapter(movies)
+    }
+
+    private fun preselectMovies(view: View) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val saved: List<Movie> = movieRepository.getAllLocalMovies()
+            withContext(Dispatchers.Main) {
+                movies.forEach {
+                    val idx = saved.indexOf(it)
+                    it.isFavourite = (idx != -1) && saved[idx].isFavourite
+                    it.isWatched = (idx != -1) && saved[idx].isWatched
+                }
+                setupRecyclerView(view)
+            }
+        }
     }
 }

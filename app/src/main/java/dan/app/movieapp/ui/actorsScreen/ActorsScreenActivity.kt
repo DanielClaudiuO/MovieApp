@@ -20,11 +20,12 @@ class ActorsScreenActivity : AppCompatActivity() {
     private var actors: List<Actor> = emptyList()
     private val actorsRepository = ActorRepository.instance
     private val genreRepository = GenreRepository.instance
+    var hasEnteredActors = false
 
     private fun getActors() {
-        GlobalScope.launch(Dispatchers.IO){
-            actors=actorsRepository.getAllRemoteActors()
-            withContext(Dispatchers.Main){
+        GlobalScope.launch(Dispatchers.IO) {
+            actors = actorsRepository.getAllRemoteActors()
+            withContext(Dispatchers.Main) {
                 preselectSavedActors()
 
             }
@@ -37,17 +38,19 @@ class ActorsScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_actors_screen)
         getActors()
         setOnClickListeners()
+
     }
 
-    private fun setOnClickListeners(){
+    private fun setOnClickListeners() {
         val btnActorSave: FloatingActionButton = findViewById(R.id.btnActorsSave)
-        btnActorSave.setOnClickListener{
+        btnActorSave.setOnClickListener {
             saveActors()
+            hasEnteredActors = true
         }
     }
 
-    private fun getSelectedActors(): List<Actor>{
-        return actors.filter { actors->actors.isSelected }
+    private fun getSelectedActors(): List<Actor> {
+        return actors.filter { actors -> actors.isSelected }
     }
 
     private fun setupRecyclerView() {
@@ -56,8 +59,8 @@ class ActorsScreenActivity : AppCompatActivity() {
         revActors.adapter = ActorsAdapter(actors)
     }
 
-    private fun saveActors(){
-        GlobalScope.launch(Dispatchers.IO){
+    private fun saveActors() {
+        GlobalScope.launch(Dispatchers.IO) {
             actorsRepository.deleteAllLocal()
             actorsRepository.saveAllLocal(getSelectedActors())
 
@@ -68,7 +71,7 @@ class ActorsScreenActivity : AppCompatActivity() {
     private fun isSaved() {
         GlobalScope.launch(Dispatchers.IO) {
             val genreCount = genreRepository.getCount()
-            val actorCount=genreRepository.getCount()
+            val actorCount = genreRepository.getCount()
             withContext(Dispatchers.Main) {
                 verifyIsSaved(genreCount, actorCount)
             }
@@ -82,8 +85,8 @@ class ActorsScreenActivity : AppCompatActivity() {
         else OnboardScreenActivity.open(this)
     }
 
-    private fun preselectSavedActors(){
-        GlobalScope.launch (Dispatchers.IO){
+    private fun preselectSavedActors() {
+        GlobalScope.launch(Dispatchers.IO) {
             val savedActors: List<Actor> = actorsRepository.getAllLocalActors()
             withContext(Dispatchers.Main) {
                 actors.forEach { actor -> actor.isSelected = savedActors.contains(actor) }

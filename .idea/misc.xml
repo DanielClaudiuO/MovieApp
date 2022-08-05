@@ -10,11 +10,14 @@
         <entry key="app/src/main/res/drawable/default_option_border_bg.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/genre_bg.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_favourite_fill_red.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_favourite_red.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_star_fill.xml" value="0.1995" />
+        <entry key="app/src/main/res/drawable/ic_watched_black.xml" value="0.176" />
+        <entry key="app/src/main/res/drawable/ic_watched_red.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/searchBarShape.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/search_bar_shape.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/selected_genre_bg.xml" value="0.2695" />
@@ -33,6 +36,7 @@
         <entry key="app/src/main/res/layout/fragment_favourites.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.33125" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/fragment_saved_movies.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/fragment_search_movies.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.33125" />
@@ -40,6 +44,7 @@
         <entry key="app/src/main/res/layout/fragment_watched.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_actor.xml" value="0.33859405517578123" />
         <entry key="app/src/main/res/layout/item_genre.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_genres_movie.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_movie.xml" value="0.3471502590673575" />
         <entry key="app/src/main/res/layout/item_movie_delete.xml" value="0.3307291666666667" />
         <entry key="app/src/main/res/layout/nav_header_search_screen.xml" value="0.33125" />

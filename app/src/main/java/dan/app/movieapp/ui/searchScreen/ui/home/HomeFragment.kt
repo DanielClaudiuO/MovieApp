@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import dan.app.movieapp.R
 import dan.app.movieapp.databinding.FragmentHomeBinding
 import dan.app.movieapp.ui.actorsScreen.ActorRepository
 import dan.app.movieapp.ui.genresScreen.GenreRepository
+import dan.app.movieapp.ui.movieDetailsScreen.MovieDetailsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,15 +31,20 @@ class HomeFragment : Fragment() {
     private val genreRepository = GenreRepository.instance
     private val actorRepository = ActorRepository.instance
 
+    private lateinit var viewModel: MovieDetailsViewModel
+
     private var genreIds: String = ""
     private var actorIds: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+         val homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        viewModel = ViewModelProvider(requireActivity())[MovieDetailsViewModel::class.java]
 
         return binding.root
     }
@@ -45,7 +54,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         getParams()
@@ -54,15 +63,16 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun getSearchedMovie(){
+    private fun getSearchedMovie() {
         val search = binding.svSearch
-        search.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+        search.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText?.length!! >= 1) {
+                if (newText?.length!! >= 1) {
                     getSearchedMovies(newText)
                 } else
                     getMovies()
@@ -71,8 +81,8 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun getParams(){
-        GlobalScope.launch (Dispatchers.IO) {
+    private fun getParams() {
+        GlobalScope.launch(Dispatchers.IO) {
             val savedGenresIds: List<Int> = genreRepository.getAllGenresIds()
             genreIds = savedGenresIds.joinToString(separator = "|") { "$it" }
             val savedActorsIds: List<Int> = actorRepository.getAllActorsIds()
@@ -84,20 +94,20 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getMovies(){
-        GlobalScope.launch (Dispatchers.IO) {
+    private fun getMovies() {
+        GlobalScope.launch(Dispatchers.IO) {
             movies = movieRepository.getAllRemoteMovies(actorIds, genreIds)
-            withContext(Dispatchers.Main){
-                setupRecyclerView()
+            withContext(Dispatchers.Main) {
+                preselectMovies()
             }
         }
     }
 
-    private fun getSearchedMovies(query : String){
-        GlobalScope.launch (Dispatchers.IO) {
+    private fun getSearchedMovies(query: String) {
+        GlobalScope.launch(Dispatchers.IO) {
             movies = movieRepository.getAllSearchedMovies(query)
-            withContext(Dispatchers.Main){
-                setupRecyclerView()
+            withContext(Dispatchers.Main) {
+                preselectMovies()
             }
         }
     }
@@ -106,22 +116,40 @@ class HomeFragment : Fragment() {
         val rvMovies = binding.rvMovies
         rvMovies.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        rvMovies.adapter = MovieAdapter(movies)
+        rvMovies.adapter = MovieAdapter(movies, { navigateToMovieDetails() }, viewModel)
     }
 
     private fun setOnClickListeners() {
         val btnFilter = binding.btnSearch
-        val svSearch= binding.svSearch
+        val svSearch = binding.svSearch
         btnFilter.setOnClickListener {
 
-            svSearch.visibility=when(svSearch.visibility){
-                View.VISIBLE->View.INVISIBLE
-                View.INVISIBLE->View.VISIBLE
+            svSearch.visibility = when (svSearch.visibility) {
+                View.VISIBLE -> View.INVISIBLE
+                View.INVISIBLE -> View.VISIBLE
                 else -> View.INVISIBLE
             }
         }
 
 
+    }
+
+    private fun navigateToMovieDetails() {
+        findNavController().navigate(R.id.fragmentMovieDetails)
+    }
+
+    private fun preselectMovies() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val saved: List<Movie> = movieRepository.getAllLocalMovies()
+            withContext(Dispatchers.Main) {
+                movies.forEach {
+                    val idx = saved.indexOf(it)
+                    it.isFavourite = (idx != -1) && saved[idx].isFavourite
+                    it.isWatched = (idx != -1) && saved[idx].isWatched
+                }
+                setupRecyclerView()
+            }
+        }
     }
 
 }

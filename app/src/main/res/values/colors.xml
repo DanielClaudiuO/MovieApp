@@ -8,4 +8,5 @@
     <color name="yellow_green">#bbe40a</color>
     <color name="no_color">#00000000</color>
     <color name="transparent_green">#6121502E</color>
+    <color name="bgColor">#9F133220</color>
 </resources>
